@@ -1,0 +1,16 @@
+.DayPickerInput {
+  width: 100%;
+  padding-right: -1em;
+  input {
+    padding: 0.35em 1em;
+    color: #495057;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    width: 100%;
+    transition: 0.2s;
+    &:focus {
+      box-shadow: 1px 1px 0px 4px rgba(135, 205, 255, 0.597);
+      outline: none;
+    }
+  }
+}
