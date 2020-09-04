@@ -11,7 +11,6 @@ import Header from './Components/Header/Header'
 import Footer from './Components/Footer/Footer'
 import Auth from './Containers/Auth/Auth'
 import Ads from './Containers/Ads/Ads'
-import 'react-rater/lib/react-rater.css'
 import './App.scss'
 
 function App() {
