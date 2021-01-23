@@ -27,7 +27,11 @@ import Col from 'react-bootstrap/Col'
 //   }
 // }
 
-export type Sort = 'priceUp' | 'priceDown' | 'date'
+export enum Sort {
+  PRICE_UP = 'priceUp',
+  PRICE_DOWN = 'priceDown',
+  DATE = 'date',
+}
 
 const Ads = () => {
   const dispatch = useDispatch()
@@ -62,15 +66,15 @@ const Ads = () => {
     setSorting(criteria)
     if (sortedAds && sortedAds.length > 1) {
       switch (criteria) {
-        case 'date':
+        case Sort.DATE:
           setSortedAds(
             [...sortedAds].sort((a, b) => (new Date(a.date) as any) - (new Date(b.date) as any))
           )
           break
-        case 'priceUp':
+        case Sort.PRICE_UP:
           setSortedAds([...sortedAds].sort((a, b) => a.price - b.price))
           break
-        case 'priceDown':
+        case Sort.PRICE_DOWN:
           setSortedAds([...sortedAds].sort((a, b) => b.price - a.price))
           break
         default:
@@ -86,22 +90,22 @@ const Ads = () => {
   // }, [])
 
   return (
-    <Container fluid='xl' className='pt-3 flex-grow-1'>
-      <Row className='justify-content-between'>
+    <Container fluid="xl" className="pt-3 flex-grow-1">
+      <Row className="justify-content-between">
         <FormSelect
-          label='Избиране на град'
+          label="Избиране на град"
           values={cities}
-          id='city'
+          id="city"
           onChange={handleCityChange}
           value={city}
           blank
         />
         <ButtonGroup
-          label='Сортирай по:'
+          label="Сортирай по:"
           buttons={[
-            { name: 'Цена ⬆', value: 'priceUp' },
-            { name: 'Цена ⬇', value: 'priceDown' },
-            { name: 'Дата', value: 'date' },
+            { name: 'Цена ⬆', value: Sort.PRICE_UP },
+            { name: 'Цена ⬇', value: Sort.PRICE_DOWN },
+            { name: 'Дата', value: Sort.DATE },
           ]}
           value={sorting}
           onChange={(e) => sort(e.target.value as Sort)}
@@ -111,10 +115,10 @@ const Ads = () => {
       {loading ? (
         <Loader />
       ) : (
-        <Row className='pt-3'>
+        <Row className="pt-3">
           {sortedAds && sortedAds.length > 0 ? (
             sortedAds.map((ad, index) => (
-              <Col sm={12} md={6} lg={4} className='mb-4' key={index}>
+              <Col sm={12} md={6} lg={4} className="mb-4" key={index}>
                 <Card
                   title={ad.title}
                   city={ad.city}
@@ -129,7 +133,7 @@ const Ads = () => {
             ))
           ) : (
             <Col>
-              <p className='text-center'>Няма намерени обяви</p>
+              <p className="text-center">Няма намерени обяви</p>
             </Col>
           )}
         </Row>
