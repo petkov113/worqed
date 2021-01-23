@@ -16,7 +16,7 @@ const createLink = (to: string, value: string, exact: boolean = false) => (
   </Nav.Item>
 )
 
-export default ({ isAuth }: { isAuth: boolean }) => {
+const Navbar = ({ isAuth }: { isAuth: boolean }) => {
   let noAuthLinks = [createLink('/auth', 'Влез', true)]
   const authLinks = [createLink('/profile#settings', 'Профил')]
   const location = useLocation()
@@ -44,3 +44,5 @@ export default ({ isAuth }: { isAuth: boolean }) => {
     </Navigationbar>
   )
 }
+
+export default Navbar

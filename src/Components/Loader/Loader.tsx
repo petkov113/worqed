@@ -3,7 +3,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Spinner from 'react-bootstrap/Spinner'
 
-export default () => {
+const Loader = () => {
   return (
     <Row className='row-flex'>
       <Col className='d-flex justify-content-center'>
@@ -14,3 +14,5 @@ export default () => {
     </Row>
   )
 }
+
+export default Loader

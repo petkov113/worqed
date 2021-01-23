@@ -9,7 +9,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import 'react-day-picker/lib/style.css'
 
-export default () => {
+const Header = () => {
   return (
     <Container
       fluid
@@ -43,3 +43,5 @@ export default () => {
     </Container>
   )
 }
+
+export default Header

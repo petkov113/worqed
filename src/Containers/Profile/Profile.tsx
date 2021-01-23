@@ -11,7 +11,7 @@ import UserAds from './UserAds'
 import Loader from '../../Components/Loader/Loader'
 import Nav from 'react-bootstrap/Nav'
 
-export default () => {
+const Profile = () => {
   const dispatch = useDispatch()
   const defaultPhone = useSelector<RootState, null | string>((state) => state.profile.phone)
   const defaultName = useSelector<RootState, null | string>((state) => state.profile.name)
@@ -115,3 +115,5 @@ export default () => {
     </HashRouter>
   )
 }
+
+export default Profile
