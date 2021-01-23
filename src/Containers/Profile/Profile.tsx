@@ -4,6 +4,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Ad, getUserAds, deleteAd } from '../../Redux/adsSlice'
 import { updateName, updatePhone } from '../../Redux/profileSlice'
 import { RootState } from '../../Redux/store'
+import { useFadeIn } from '../../utils/utils'
+import { animated } from 'react-spring'
 import DialogModal from '../../Components/Modal/DialogModal'
 import Container from 'react-bootstrap/Container'
 import Settings from './Settings'
@@ -24,6 +26,7 @@ const Profile = () => {
   const [name, setName] = useState(defaultName || '')
   const [ad, setAd] = useState<null | string>(null)
   const user = { id, token }
+  const fadeIn = useFadeIn()
 
   const handleClick = () => {
     dispatch(getUserAds(user))
@@ -65,52 +68,54 @@ const Profile = () => {
   }
 
   return (
-    <HashRouter hashType='noslash'>
-      <Container fluid='xl' className='flex-grow-1'>
-        <DialogModal
-          show={modal}
-          title='Сигурни ли сте?'
-          onClose={() => setModal(false)}
-          onSubmit={() => handleAdDeletion(ad!)}
-        />
-        <Nav variant='tabs' className='mt-2 mb-4'>
-          <Nav.Item>
-            <NavLink to='/settings' className='nav-link'>
-              Настройки
-            </NavLink>
-          </Nav.Item>
-          <Nav.Item>
-            <NavLink to='/userads' className='nav-link' onClick={handleClick}>
-              Моите обяви
-            </NavLink>
-          </Nav.Item>
-        </Nav>
-        {loading ? (
-          <Loader />
-        ) : (
-          <Switch>
-            <Route
-              path='/settings'
-              exact
-              render={() => (
-                <Settings
-                  nameValue={name}
-                  phoneValue={phone}
-                  onNameChange={(name) => setName(name)}
-                  onPhoneChange={handlePhoneChange}
-                  onBlur={handleFieldBlur}
-                />
-              )}
-              key='settings'
-            />
-            ,
-            <Route
-              path='/userads'
-              render={() => <UserAds ads={ads} onDelete={confirm} />}
-              key='userads'
-            />
-          </Switch>
-        )}
+    <HashRouter hashType="noslash">
+      <Container fluid="xl" className="flex-grow-1">
+        <animated.div style={fadeIn}>
+          <DialogModal
+            show={modal}
+            title="Сигурни ли сте?"
+            onClose={() => setModal(false)}
+            onSubmit={() => handleAdDeletion(ad!)}
+          />
+          <Nav variant="tabs" className="mt-2 mb-4">
+            <Nav.Item>
+              <NavLink to="/settings" className="nav-link">
+                Настройки
+              </NavLink>
+            </Nav.Item>
+            <Nav.Item>
+              <NavLink to="/userads" className="nav-link" onClick={handleClick}>
+                Моите обяви
+              </NavLink>
+            </Nav.Item>
+          </Nav>
+          {loading ? (
+            <Loader />
+          ) : (
+            <Switch>
+              <Route
+                path="/settings"
+                exact
+                render={() => (
+                  <Settings
+                    nameValue={name}
+                    phoneValue={phone}
+                    onNameChange={(name) => setName(name)}
+                    onPhoneChange={handlePhoneChange}
+                    onBlur={handleFieldBlur}
+                  />
+                )}
+                key="settings"
+              />
+              ,
+              <Route
+                path="/userads"
+                render={() => <UserAds ads={ads} onDelete={confirm} />}
+                key="userads"
+              />
+            </Switch>
+          )}
+        </animated.div>
       </Container>
     </HashRouter>
   )

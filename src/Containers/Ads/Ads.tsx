@@ -3,6 +3,8 @@ import React, { useEffect, ChangeEvent, useState } from 'react'
 import { cities, City } from '../ServiceForm/ServiceForm'
 import { getAds, Ad } from '../../Redux/adsSlice'
 import { RootState } from '../../Redux/store'
+import { useFadeIn } from '../../utils/utils'
+import { animated } from 'react-spring'
 import ButtonGroup from '../../Components/ButtonGroup/ButtonGroup'
 import FormSelect from '../../Components/Form/FormSelect/FormSelect'
 import Container from 'react-bootstrap/Container'
@@ -40,6 +42,7 @@ const Ads = () => {
   const [city, setCity] = useState<City | undefined>(undefined)
   const [sorting, setSorting] = useState<null | Sort>(null)
   const [sortedAds, setSortedAds] = useState(ads)
+  const fadeIn = useFadeIn()
 
   useEffect(() => {
     dispatch(getAds())
@@ -91,53 +94,55 @@ const Ads = () => {
 
   return (
     <Container fluid="xl" className="pt-3 flex-grow-1">
-      <Row className="justify-content-between">
-        <FormSelect
-          label="Избиране на град"
-          values={cities}
-          id="city"
-          onChange={handleCityChange}
-          value={city}
-          blank
-        />
-        <ButtonGroup
-          label="Сортирай по:"
-          buttons={[
-            { name: 'Цена ⬆', value: Sort.PRICE_UP },
-            { name: 'Цена ⬇', value: Sort.PRICE_DOWN },
-            { name: 'Дата', value: Sort.DATE },
-          ]}
-          value={sorting}
-          onChange={(e) => sort(e.target.value as Sort)}
-        />
-      </Row>
-      <hr />
-      {loading ? (
-        <Loader />
-      ) : (
-        <Row className="pt-3">
-          {sortedAds && sortedAds.length > 0 ? (
-            sortedAds.map((ad, index) => (
-              <Col sm={12} md={6} lg={4} className="mb-4" key={index}>
-                <Card
-                  title={ad.title}
-                  city={ad.city}
-                  id={ad.id}
-                  phone={ad.phone}
-                  info={ad.info}
-                  district={ad.district}
-                  price={ad.price}
-                  date={ad.date}
-                />
-              </Col>
-            ))
-          ) : (
-            <Col>
-              <p className="text-center">Няма намерени обяви</p>
-            </Col>
-          )}
+      <animated.div style={fadeIn}>
+        <Row className="justify-content-between">
+          <FormSelect
+            label="Избиране на град"
+            values={cities}
+            id="city"
+            onChange={handleCityChange}
+            value={city}
+            blank
+          />
+          <ButtonGroup
+            label="Сортирай по:"
+            buttons={[
+              { name: 'Цена ⬆', value: Sort.PRICE_UP },
+              { name: 'Цена ⬇', value: Sort.PRICE_DOWN },
+              { name: 'Дата', value: Sort.DATE },
+            ]}
+            value={sorting}
+            onChange={(e) => sort(e.target.value as Sort)}
+          />
         </Row>
-      )}
+        <hr />
+        {loading ? (
+          <Loader />
+        ) : (
+          <Row className="pt-3">
+            {sortedAds && sortedAds.length > 0 ? (
+              sortedAds.map((ad, index) => (
+                <Col sm={12} md={6} lg={4} className="mb-4" key={index}>
+                  <Card
+                    title={ad.title}
+                    city={ad.city}
+                    id={ad.id}
+                    phone={ad.phone}
+                    info={ad.info}
+                    district={ad.district}
+                    price={ad.price}
+                    date={ad.date}
+                  />
+                </Col>
+              ))
+            ) : (
+              <Col>
+                <p className="text-center">Няма намерени обяви</p>
+              </Col>
+            )}
+          </Row>
+        )}
+      </animated.div>
     </Container>
   )
 }
